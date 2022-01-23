@@ -15,6 +15,10 @@ def daylength(dayOfYear, lat):
 ```
 This returns daylength in seconds, which when applied to a timedelta can easily be transformed into HH:mm:ss
 
-The rest of the code is a couple of functions from AstroPY to get some times for sunrise/set, logic for turning those numbers into human-readable times (because astrological time is not the same as what most humans understand time to be), some pseudorandom code for producing the tweets that make this at least look Turing-compliant and the logic for tweeting (TweePY) and logging everything.
+The rest of the code is a couple of functions from Astroplan (https://astroplan.readthedocs.io/en/latest/index.html) to get some times for sunrise/set, logic for turning those numbers into human-readable times (because astrological time is not the same as what most humans understand time to be), some pseudorandom code for producing the tweets that make this at least look Turing-compliant and the logic for tweeting (TweePY) and logging everything.
+
+I don't need to provide all the tweepy and human-interest tweet generating stuff, if you're reading this you're more than capable of coming up with your own interface. So instead, have the command-line version. Still needs Astroplan and datetime (`pip install astroplan datetime` will sort out all the dependencies) to work but you'll get a useful output. 
+
+Usage: `daylight.py date=DD-MM latitude=LATITUDE` - eg: `daylight.py date=23-11 latitude=55.95` will return data for the 23rd of November at the latitude of Edinburgh. Not specifying either will give the data for the current day in Edinburgh, because I'm lazy and that's where my office is. Error handling is (so far) non-existant, don't put in illegal dates or claim you're at latitude -1, or something. And remember: the output TAKES NO NOTICE OF DAYLIGHT SAVINGS TIMES. It's in your local non-DST timeframe, so if you're in the local summer remember to add an hour to clock times. Or take one off. Whatever.
 
 [1] Forsythe et al., "A model comparison for daylength as a function of latitude and day of year", Ecological Modelling, 1995. (https://www.sciencedirect.com/science/article/pii/030438009400034F)
