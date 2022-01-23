@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # coding: utf-8
 
 # libraries
@@ -42,10 +42,10 @@ def main(argv):
 
     if date_arg:
         today=datetime.datetime.strptime(date_arg,"%Y-%m-%d")
-        print("setting date_arg to "+str(today))
+#        print("setting date_arg to "+str(today))
     else:
         today=datetime.date.today()
-        print("setting date_arg to default ("+str(today)+")")
+#        print("setting date_arg to default ("+str(today)+")")
 
     today_date=today.strftime('%Y-%m-%d')
     today_day=int(today.strftime('%j'))
