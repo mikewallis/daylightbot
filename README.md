@@ -21,4 +21,10 @@ I don't need to provide all the tweepy and human-interest tweet generating stuff
 
 Usage: `daylight.py <-d|--date YYYY-MM-DD> <-l|--lat LATITUDE>` - eg: `daylight.py --date 2022-11-09 --lat 55.95` will return data for the 9th of November at the latitude of Edinburgh. Not specifying either will give the data for the current day in Edinburgh, because I'm lazy and that's where my office is. Error handling is (so far) non-existant, don't put in illegal dates or claim you're at latitude -1, or something. And remember: the output TAKES NO NOTICE OF DAYLIGHT SAVINGS TIMES. It's in your local non-DST timeframe, so if you're in the local summer remember to add an hour to clock times. Or take one off. Whatever.
 
+Want to get the dawn/dusk times for every full degree of latitude from Lands End (~50N) to John O'Groats (~59N)? Bash loops are your friends. (note: longitude is always 3.18W, because cf. "Edinburgh", "office", and "lazy" above, so depending on where you are dawn/dusk will be slightly different - I'll fix this in a future edition)
+
+![FJxpTsOXIAITPIo](https://user-images.githubusercontent.com/14231683/150778881-4997d4d4-e963-402a-af82-48c742a00106.png)
+
+Want something similar, only for a range of dates? Bash loops. Want to do different dates and different longitutes? Nested bash loops.
+
 [1] Forsythe et al., "A model comparison for daylength as a function of latitude and day of year", Ecological Modelling, 1995. (https://www.sciencedirect.com/science/article/pii/030438009400034F)
