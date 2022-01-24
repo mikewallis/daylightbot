@@ -25,20 +25,23 @@ def main(argv):
 
     date_arg=''
     lat_arg=''
+    long_arg=''
 
     try:
-        opts,args = getopt.getopt(argv,"hd:l:",["date=","lat="])
+        opts,args = getopt.getopt(argv,"hd:l:g:",["date=","lat=","long="])
     except getopt.GetoptError:
-            print("usage: daylight.py (--date <YYYY-mm-dd>) (--latitude <latitude>)")
+            print("usage: daylight.py (--date <YYYY-mm-dd>) (--lat <latitude>) (--long <longitude>)")
 
     for opt,arg in opts:
             if opt in ("-h", "--help"):
-                print("usage: daylight.py (--date <YYYY-mm-dd>) (--latitude <latitude>)")
+                print("usage: daylight.py (--date <YYYY-mm-dd>) (--lat <latitude>) (--long <longitude>)")
                 sys.exit()
             elif opt in ("-d", "--date"):
                 date_arg = arg
-            elif opt in ("-l","--latitude"):
+            elif opt in ("-l","--lat"):
                 lat_arg = arg
+            elif opt in ("-g","--long"):
+                long_arg = arg
 
     if date_arg:
         today=datetime.datetime.strptime(date_arg,"%Y-%m-%d")
@@ -57,8 +60,11 @@ def main(argv):
         actual_lat=float(lat_arg)
     else:
         actual_lat=55.9533
+    if long_arg:
+        actual_long=float(long_arg)
+    else:
+        actual_long=-3.1883
 
-    actual_long=-3.1883
     loc = Observer(latitude=actual_lat*u.deg, longitude=actual_long*u.deg, elevation=0*u.m,timezone="UTC") 
 
     t = Time('{} 12:00:00'.format(today_date), precision=0)
@@ -71,7 +77,7 @@ def main(argv):
     today_daylight=datetime.timedelta(seconds=daylength(today_day,actual_lat),microseconds=0)
     daylight = str(today_daylight)
 
-    log_message="day "+str(today_day)+" | latitude: "+str(actual_lat)+" | daylight time is "+daylight+" | dawn at "+ sunup.split()[1].split('.')[0] + " | dusk at " + sundown.split()[1].split('.')[0]
+    log_message="day "+str(today_day)+" | lat: "+str(actual_lat)+" | long: "+str(actual_long)+" | daylight: "+daylight+" | dawn: "+ sunup.split()[1].split('.')[0] + " | dusk: " + sundown.split()[1].split('.')[0]
 
     print (log_message)
 
