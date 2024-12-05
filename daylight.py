@@ -26,15 +26,16 @@ def main(argv):
     date_arg=''
     lat_arg=''
     long_arg=''
+    tz_arg=''
 
     try:
-        opts,args = getopt.getopt(argv,"hd:l:g:",["date=","lat=","long="])
+        opts,args = getopt.getopt(argv,"hd:l:g:z:",["date=","lat=","long=","--tz="])
     except getopt.GetoptError:
-            print("usage: daylight.py (--date <YYYY-mm-dd>) (--lat <latitude>) (--long <longitude>)")
+            print("usage: daylight.py (--date <YYYY-mm-dd>) (--lat <latitude>) (--long <longitude>) (--tz <timezone>)")
 
     for opt,arg in opts:
             if opt in ("-h", "--help"):
-                print("usage: daylight.py (--date <YYYY-mm-dd>) (--lat <latitude>) (--long <longitude>)")
+                print("usage: daylight.py (--date <YYYY-mm-dd>) (--lat <latitude>) (--long <longitude>) (--tz <timezone>)")
                 sys.exit()
             elif opt in ("-d", "--date"):
                 date_arg = arg
@@ -42,6 +43,8 @@ def main(argv):
                 lat_arg = arg
             elif opt in ("-g","--long"):
                 long_arg = arg
+            elif opt in ("-z","--tz"):
+                tz_arg = arg
 
     if date_arg:
         today=datetime.datetime.strptime(date_arg,"%Y-%m-%d")
@@ -64,9 +67,13 @@ def main(argv):
         actual_long=float(long_arg)
     else:
         actual_long=-3.1883
+    if tz_arg:
+        actual_tz=tz_arg
+    else:
+        actual_tz="UTC"
 
-    loc = Observer(latitude=actual_lat*u.deg, longitude=actual_long*u.deg, elevation=0*u.m,timezone="UTC") 
-
+    loc = Observer(latitude=actual_lat*u.deg, longitude=actual_long*u.deg, elevation=0*u.m,timezone=actual_tz) 
+    print(loc)
     t = Time('{} 12:00:00'.format(today_date), precision=0)
     sun_rise = (loc.sun_rise_time(t, which="nearest"))
     sun_set = (loc.sun_set_time(t, which="nearest"))
@@ -77,7 +84,7 @@ def main(argv):
     today_daylight=datetime.timedelta(seconds=daylength(today_day,actual_lat),microseconds=0)
     daylight = str(today_daylight)
 
-    log_message="day "+str(today_day)+" | lat: "+str(actual_lat)+" | long: "+str(actual_long)+" | daylight: "+daylight+" | dawn: "+ sunup.split()[1].split('.')[0] + " | dusk: " + sundown.split()[1].split('.')[0]
+    log_message="day "+str(today_day)+" | tz "+actual_tz+" | lat "+str(actual_lat)+" | long "+str(actual_long)+" | daylight "+daylight+" | dawn "+ sunup.split()[1].split('.')[0] + " | dusk " + sundown.split()[1].split('.')[0]
 
     print (log_message)
 
