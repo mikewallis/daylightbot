@@ -12,7 +12,7 @@ import getopt,sys
 
 def daylength(dayOfYear, lat):
   latInRad = np.deg2rad(lat)
-  declinationOfEarth = 23.45*np.sin(np.deg2rad(360.0*(283.0+dayOfYear)/366))
+  declinationOfEarth = 23.45*np.sin(np.deg2rad(360.0*(284.25+dayOfYear)/365))
   if -np.tan(latInRad) * np.tan(np.deg2rad(declinationOfEarth)) <= -1.0:
       return 24.0
   elif -np.tan(latInRad) * np.tan(np.deg2rad(declinationOfEarth)) >= 1.0:
@@ -54,7 +54,7 @@ def main(argv):
 #        print("setting date_arg to default ("+str(today)+")")
 
     today_date=today.strftime('%Y-%m-%d')
-    today_day=int(today.strftime('%j'))
+    today_day=int(today.strftime('%j'))-1
 
     if today_day % 14 == 0:
         download_IERS_A()
